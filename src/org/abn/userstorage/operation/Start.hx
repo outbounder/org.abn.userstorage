@@ -16,7 +16,8 @@ class Start extends UserStorageOperation
 			return "already started";
 			
 		var xmppContext:XMPPContext = this.appContext.getXMPPContext();
-		xmppContext.openConnection(true, onConnected);
+		xmppContext.openConnection(true, onConnected, onDisconnected);
+		
 		Web.cacheModule(Main.handleRequests);
 		this.appContext.set("started", true);
 		return "done";
@@ -25,6 +26,13 @@ class Start extends UserStorageOperation
 	private function onConnected():Void
 	{
 		this.appContext.getXMPPContext().getConnection().addMessageListener(incomingMessagesHandler);
+	}
+	
+	private function onDisconnected():Void
+	{
+		trace("trying to reconnect...");
+		var xmppContext:XMPPContext = this.appContext.getXMPPContext();
+		xmppContext.openConnection(true, onConnected, onDisconnected);
 	}
 	
 	private function incomingMessagesHandler(msg:Dynamic):Void
