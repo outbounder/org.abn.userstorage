@@ -9,8 +9,8 @@ class Stop extends UserStorageOperation
 		if (!this.appContext.has("started"))
 			return "not started";
 			
-		this.appContext.getXMPPContext().closeConnection();
-		this.appContext.getDatabase().close();
+		this.appContext.closeXMPPConnection();
+		this.appContext.resetDatabase();
 		this.appContext.set("started", null);
 		Web.cacheModule(null);
 		return "done";

@@ -31,6 +31,7 @@ class Start extends UserStorageOperation
 	{
 		if (Std.is(msg, Message))
 		{
+			trace("incoming " + msg);
 			try
 			{
 				var msg:Message = cast(msg, Message); 
@@ -49,6 +50,7 @@ class Start extends UserStorageOperation
 							
 						var operation:UserStorageOperation = this.appContext.getOperationFactory().getOperationById(fast.att.id);
 						var result:String = operation.execute(this.appContext.getOperationFactory().getOperationParamsFromXML(fast));
+						result = result.split("<").join("&lt;").split(">").join("&gt;");
 						this.appContext.getXMPPContext().getConnection().sendMessage(msg.from, result);
 					}
 				}
@@ -57,6 +59,7 @@ class Start extends UserStorageOperation
 			{
 				trace(e);
 				trace(Stack.toString(Stack.exceptionStack()));
+				trace(msg);
 			}
 		}
 	}

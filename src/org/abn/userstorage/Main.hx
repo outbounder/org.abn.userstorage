@@ -19,7 +19,7 @@ class Main
 		var xml:Xml = Xml.parse(File.getContent(Web.getCwd() + "assets/config.xml"));
 		var fast:Fast = new Fast(xml.firstElement());
 		var context:Context = parser.getContext(fast);
-		
+
 		service = new UserStorage(new AppContext(context.getProperties()));
 		handleRequests();
 	}

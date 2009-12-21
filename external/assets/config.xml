@@ -1,35 +1,30 @@
 ﻿<context>
-	<operations id="operations">
-		<operation id="start">
+	<operations>
+		<start>
 			<path>org.abn.userstorage.operation.Start</path>
-		</operation>
-		<operation id="kill">
+		</start>
+		<kill>
 			<path>org.abn.userstorage.operation.Stop</path>
-		</operation>
-		<operation id="getUserId">
+		</kill>
+		<getUserId>
 			<path>org.abn.userstorage.operation.GetUserId</path>
-		</operation>
-		<operation id="set">
+		</getUserId>
+		<set>
 			<path>org.abn.userstorage.operation.Set</path>
-		</operation>
-		<operation id="get">
+		</set>
+		<get>
 			<path>org.abn.userstorage.operation.Get</path>
-		</operation>
+		</get>
 	</operations>
-	<xmpp id="userstorage">
+	<xmpp>
 		<username></username>
 		<password></password>
 		<server></server>
 	</xmpp>
-	<database id="database">
+	<database>
 		<host>localhost</host>
 		<username>root</username>
 		<password></password>
 		<database>userstorage</database>
-		<tables id="tables">
-			<table id="users">
-				<name>users</name>
-			</table>
-		</tables>
 	</database>
 </context>
