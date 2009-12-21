@@ -24,7 +24,7 @@ class UserStorageOperationFactory
 		var result:UserStorageOperation = null;
 		var path:String = this.appContext.get("operations." + id + ".path");
 		if (path == null)
-			throw "can not find operation " + id;
+			return null;
 		result = Type.createInstance(Type.resolveClass(path), [this.appContext]);
 		return result;
 	}

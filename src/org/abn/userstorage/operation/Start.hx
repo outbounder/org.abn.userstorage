@@ -45,10 +45,14 @@ class Start extends UserStorageOperation
 					if (xml != null)
 					{
 						var fast:Fast = new Fast(xml.firstElement());
-						if (!fast.has.id)
+													
+						var operation:UserStorageOperation = this.appContext.getOperationFactory().getOperationById(fast.name);
+						if (operation == null)
+						{
+							this.appContext.getXMPPContext().getConnection().sendMessage(msg.from, msg.body);
 							return;
-							
-						var operation:UserStorageOperation = this.appContext.getOperationFactory().getOperationById(fast.att.id);
+						}
+						
 						var result:String = operation.execute(this.appContext.getOperationFactory().getOperationParamsFromXML(fast));
 						result = result.split("<").join("&lt;").split(">").join("&gt;");
 						this.appContext.getXMPPContext().getConnection().sendMessage(msg.from, result);

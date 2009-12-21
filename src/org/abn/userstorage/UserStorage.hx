@@ -62,6 +62,8 @@ class UserStorage extends AppContext
 	public function executeOperation(id:String, params:Hash<String>):String
 	{
 		var operation:UserStorageOperation = this.getOperationFactory().getOperationById(id);
+		if (operation == null)
+			return id;
 		return operation.execute(params);
 	}
 	
