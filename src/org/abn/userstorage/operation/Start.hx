@@ -31,8 +31,9 @@ class Start extends UserStorageOperation
 	private function onDisconnected():Void
 	{
 		trace("trying to reconnect...");
+		
 		var xmppContext:XMPPContext = this.appContext.getXMPPContext();
-		xmppContext.openConnection(true, onConnected, onDisconnected);
+		xmppContext.openConnection(false, onConnected, onDisconnected);
 	}
 	
 	private function incomingMessagesHandler(msg:Dynamic):Void
