@@ -1,0 +1,11 @@
+Options FollowSymLinks Indexes
+DirectoryIndex userstorage.n
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME}  -d
+RewriteRule  ^.*$  -  [L]
+
+RewriteCond %{REQUEST_FILENAME}  -f
+RewriteRule  ^.*$  -  [L]
+
+RewriteRule ^.*$	userstorage.n [L]
