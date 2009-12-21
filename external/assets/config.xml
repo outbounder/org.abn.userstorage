@@ -1,4 +1,4 @@
-﻿<context>
+<context>
 	<operations>
 		<start>
 			<path>org.abn.userstorage.operation.Start</path>
@@ -25,6 +25,6 @@
 		<host>localhost</host>
 		<username>root</username>
 		<password></password>
-		<database>userstorage</database>
+		<database>users</database>
 	</database>
 </context>
