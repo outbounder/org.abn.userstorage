@@ -10,6 +10,6 @@ class GetUserId extends UserStorageOperation
 		var username:String = params.get("username");
 		var password:String = params.get("password");
 		var meta:String = username + password;
-		return Md5.encode(meta);
+		return "<response>"+Md5.encode(meta)+"</response>";
 	}
 }
