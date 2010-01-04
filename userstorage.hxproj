@@ -14,7 +14,7 @@
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
-    <class path="..\apiLib\src" />
+    <class path="libs\api\src" />
   </classpaths>
   <!-- Build options -->
   <build>
