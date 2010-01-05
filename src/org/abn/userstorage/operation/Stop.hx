@@ -1,17 +1,18 @@
 ﻿package org.abn.userstorage.operation;
 import neko.Web;
-import org.abn.userstorage.UserStorageOperation;
+import org.abn.bot.operation.BotOperation;
 
-class Stop extends UserStorageOperation
+
+class Stop extends BotOperation
 {
 	public override function execute(params:Hash<String>):String
 	{
-		if (!this.appContext.has("started"))
+		if (!this.botContext.has("started"))
 			return "not started";
 			
-		this.appContext.set("started", null);
-		this.appContext.closeXMPPConnection();
-		this.appContext.resetDatabase();
+		this.botContext.set("started", null);
+		this.botContext.closeXMPPConnection();
+		this.botContext.resetDatabase();
 		
 		Web.cacheModule(null);
 		return "done";

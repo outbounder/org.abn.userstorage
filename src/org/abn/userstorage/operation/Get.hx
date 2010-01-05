@@ -1,8 +1,9 @@
 ﻿package org.abn.userstorage.operation;
+import org.abn.bot.operation.BotOperation;
 import org.abn.userstorage.model.Pair;
-import org.abn.userstorage.UserStorageOperation;
 
-class Get extends UserStorageOperation
+
+class Get extends BotOperation
 {
 	public override function execute(params:Hash<String>):String
 	{

@@ -15,6 +15,9 @@
 		<get>
 			<path>org.abn.userstorage.operation.Get</path>
 		</get>
+		<statusReport>
+			<path>org.abn.userstorage.operation.StatusReport</path>
+		</statusReport>
 	</operations>
 	<xmpp>
 		<username></username>

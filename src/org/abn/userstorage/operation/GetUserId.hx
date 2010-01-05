@@ -1,9 +1,10 @@
 ﻿package org.abn.userstorage.operation;
 
 import haxe.Md5;
-import org.abn.userstorage.UserStorageOperation;
+import org.abn.bot.operation.BotOperation;
 
-class GetUserId extends UserStorageOperation
+
+class GetUserId extends BotOperation
 {
 	public override function execute(params:Hash<String>):String
 	{

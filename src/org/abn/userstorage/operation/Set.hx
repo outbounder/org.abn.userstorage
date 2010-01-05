@@ -1,13 +1,13 @@
 ﻿package org.abn.userstorage.operation;
 import neko.db.ResultSet;
+import org.abn.bot.operation.BotOperation;
 import org.abn.userstorage.model.Pair;
-import org.abn.userstorage.UserStorageOperation;
 
-class Set extends UserStorageOperation
+
+class Set extends BotOperation
 {
 	public override function execute(params:Hash<String>):String
 	{
-		trace(params);
 		if (params.get("value") == "" || params.get("value") == null)
 		{
 			var pair:Pair = new Pair();
