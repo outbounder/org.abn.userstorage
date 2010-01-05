@@ -25,7 +25,8 @@ class Start extends UserStorageOperation
 	
 	private function onConnected():Void
 	{
-		this.appContext.getXMPPContext().getConnection().addMessageListener(incomingMessagesHandler);
+		this.appContext.getXMPPContext().getConnection().createMessageListener(incomingMessagesHandler);
+		this.appContext.getXMPPContext().getConnection().createPongHandler();
 	}
 	
 	private function onDisconnected():Void
@@ -38,44 +39,39 @@ class Start extends UserStorageOperation
 		}
 	}
 	
-	private function incomingMessagesHandler(msg:Dynamic):Void
+	private function incomingMessagesHandler(msg:Message):Void
 	{
-		if (Std.is(msg, Message))
+		trace("incoming " + msg);
+		try
 		{
-			trace("incoming " + msg);
-			try
+			if (msg.body != null)
 			{
-				var msg:Message = cast(msg, Message); 
+				var body:String = msg.body.split("&lt;").join("<").split("&gt;").join(">");
 				
-				if (msg.body != null)
+				var xml:Xml = Xml.parse(body);
+				
+				if (xml != null)
 				{
-					var body:String = msg.body.split("&lt;").join("<").split("&gt;").join(">");
-					
-					var xml:Xml = Xml.parse(body);
-					
-					if (xml != null)
+					var fast:Fast = new Fast(xml.firstElement());
+												
+					var operation:UserStorageOperation = this.appContext.getOperationFactory().getOperationById(fast.name);
+					if (operation == null)
 					{
-						var fast:Fast = new Fast(xml.firstElement());
-													
-						var operation:UserStorageOperation = this.appContext.getOperationFactory().getOperationById(fast.name);
-						if (operation == null)
-						{
-							this.appContext.getXMPPContext().getConnection().sendMessage(msg.from, msg.body);
-							return;
-						}
-						
-						var result:String = operation.execute(this.appContext.getOperationFactory().getOperationParamsFromXML(fast));
-						result = result.split("<").join("&lt;").split(">").join("&gt;");
-						this.appContext.getXMPPContext().getConnection().sendMessage(msg.from, result);
+						this.appContext.getXMPPContext().getConnection().sendMessage(msg.from, msg.body);
+						return;
 					}
+					
+					var result:String = operation.execute(this.appContext.getOperationFactory().getOperationParamsFromXML(fast));
+					result = result.split("<").join("&lt;").split(">").join("&gt;");
+					this.appContext.getXMPPContext().getConnection().sendMessage(msg.from, result);
 				}
 			}
-			catch (e:Dynamic)
-			{
-				trace(e);
-				trace(Stack.toString(Stack.exceptionStack()));
-				trace(msg);
-			}
+		}
+		catch (e:Dynamic)
+		{
+			trace(e);
+			trace(Stack.toString(Stack.exceptionStack()));
+			trace(msg);
 		}
 	}
 }
