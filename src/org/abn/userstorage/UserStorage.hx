@@ -20,7 +20,7 @@ class UserStorage extends BotContext
 	{
 		super(context);
 		
-		this.getDatabase();
+		this.openDatabase();
 		Pair.manager.updateTable();
 	}
 	

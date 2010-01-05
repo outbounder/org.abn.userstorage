@@ -11,7 +11,7 @@ class Stop extends BotOperation
 		
 		this.botContext.set("started", null);
 		this.botContext.closeXMPPConnection();
-		this.botContext.resetDatabase();
+		this.botContext.closeDatabase();
 		
 		Web.cacheModule(null);
 		return "done";

@@ -1,6 +1,7 @@
 ﻿package org.abn.userstorage.operation;
 
 import haxe.Stack;
+import neko.vm.Thread;
 import org.abn.bot.operation.BotOperation;
 import org.abn.neko.xmpp.XMPPContext;
 import org.abn.userstorage.Main;
@@ -11,6 +12,8 @@ import haxe.xml.Fast;
 
 class Start extends BotOperation
 {		
+	private var httpThread:Thread;
+	
 	public override function execute(params:Hash<String>):String
 	{
 		if (this.botContext.has("started"))
@@ -20,7 +23,9 @@ class Start extends BotOperation
 		
 		Web.cacheModule(Main.handleRequests);
 		this.botContext.set("started", true);
-		return "done";
+		
+		this.httpThread = Thread.current();
+		return Thread.readMessage(true);
 	}
 	
 	private function onConnectFailed(reason:Dynamic):Void
@@ -32,6 +37,7 @@ class Start extends BotOperation
 	private function onConnected():Void
 	{
 		trace("userstorage connected");
+		this.httpThread.sendMessage("done");
 	}
 	
 	private function onDisconnected():Void
