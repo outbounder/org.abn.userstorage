@@ -2,7 +2,6 @@
 
 import haxe.Stack;
 import org.abn.bot.operation.BotOperation;
-import org.abn.bot.operation.BotOperationListener;
 import org.abn.neko.xmpp.XMPPContext;
 import org.abn.userstorage.Main;
 
@@ -17,8 +16,7 @@ class Start extends BotOperation
 		if (this.botContext.has("started"))
 			return "already started";
 			
-		var xmppContext:XMPPContext = this.botContext.getXMPPContext();
-		xmppContext.openConnection(true, onConnected, onDisconnected, onConnectFailed);
+		this.botContext.openXMPPConnection(onConnected, onConnectFailed, onDisconnected);
 		
 		Web.cacheModule(Main.handleRequests);
 		this.botContext.set("started", true);
@@ -33,8 +31,6 @@ class Start extends BotOperation
 	
 	private function onConnected():Void
 	{
-		var operationListener:BotOperationListener = new BotOperationListener(this.botContext);
-		this.botContext.set("operationListener", operationListener);
 		trace("userstorage connected");
 	}
 	
@@ -43,8 +39,7 @@ class Start extends BotOperation
 		if (this.botContext.has("started"))
 		{
 			trace("trying to reconnect...");
-			var xmppContext:XMPPContext = this.botContext.getXMPPContext();
-			xmppContext.openConnection(false, onConnected, onDisconnected);
+			this.botContext.openXMPPConnection(onConnected, onConnectFailed, onDisconnected);
 		}
 	}
 }
