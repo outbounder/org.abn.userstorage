@@ -34,6 +34,7 @@ class Start extends BotOperation
 	private function onConnected():Void
 	{
 		var operationListener:BotOperationListener = new BotOperationListener(this.botContext);
+		this.botContext.set("operationListener", operationListener);
 		trace("userstorage connected");
 	}
 	
