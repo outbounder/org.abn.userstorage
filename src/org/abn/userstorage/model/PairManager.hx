@@ -26,6 +26,6 @@ class PairManager extends ManagerEx<Pair>
 		else 
 		if (userIDMatch.length != 0)
 			selectQuery = userIDMatch;
-		return objects(select(keyMatch+userIDMatch), true);
+		return objects(select(selectQuery), true);
 	}
 }
