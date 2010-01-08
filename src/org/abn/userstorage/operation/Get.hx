@@ -10,7 +10,7 @@ class Get extends BotOperation
 	public override function execute(params:Hash<String>):String
 	{
 		var pairManager:PairManager = new PairManager(this.getDbConn());
-		var pairs:List < Pair > = pairManager.queryStartWith(params.get("key"), params.get("userId"));
+		var pairs:List < Pair > = pairManager.queryStartWith(params.get("key"), params.get("userId"), params.get("sourceId"));
 		var pairsAsXML:Array<String> = new Array();
 		var pair:Pair;
 		for (pair in pairs)

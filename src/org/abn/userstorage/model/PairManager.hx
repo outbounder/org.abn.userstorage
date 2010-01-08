@@ -11,17 +11,23 @@ class PairManager extends ManagerEx<Pair>
         super(cnx, Pair);
     }
 	
-	public function queryStartWith(key:String,userID:String):List<Pair>
+	public function queryStartWith(key:String,userID:String,sourceId:String):List<Pair>
 	{
-		var keyMatch:String = key == null?"":this.quoteField("key") + " LIKE " + this.quote(key + "%");
-		var userIDMatch:String = userID == null?"":this.quoteField("userId") + " = " + this.quote(userID);
-		var selectQuery:String = keyMatch;
-		if (selectQuery.length != 0 && userIDMatch.length != 0)
-			selectQuery += " AND "+userIDMatch;
-		else 
-		if (userIDMatch.length != 0)
-			selectQuery = userIDMatch;
-		return objects(select(selectQuery));
+		var whereParts:Array<String> = new Array();
+		
+		if (key != null)
+			whereParts.push(this.quoteField("key") + " LIKE " + this.quote(key + "%"));
+		if (userID != null)
+			whereParts.push(this.quoteField("userId") + " = " + this.quote(userID));
+		if (sourceId != null)
+			whereParts.push(this.quoteField("sourceId") + " = " + this.quote(sourceId));
+			
+		var selectQuery:String = whereParts.join(" AND ");
+			
+		if(selectQuery.length != 0)
+			return objects("SELECT * FROM " + this.table_name + " WHERE "+selectQuery);
+		else
+			return objects("SELECT * FROM " + this.table_name);
 	}
 	
 	public function queryAllUserPairsWithKey(key:String):List<Pair>
