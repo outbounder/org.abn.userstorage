@@ -1,19 +1,14 @@
-﻿/**
- * ...
- * @author outbounder
- */
+﻿package org.abn.userstorage.model;
 
-package org.abn.userstorage.model;
-
+import neko.db.Connection;
 import neko.db.ResultSet;
-import Type;
 import org.abn.neko.database.mysql.ManagerEx;
 
 class PairManager extends ManagerEx<Pair>
 {
-    public function new() 
+    public function new(cnx:Connection) 
 	{
-        super(Pair);
+        super(cnx, Pair);
     }
 	
 	public function queryStartWith(key:String,userID:String):List<Pair>
@@ -26,6 +21,11 @@ class PairManager extends ManagerEx<Pair>
 		else 
 		if (userIDMatch.length != 0)
 			selectQuery = userIDMatch;
-		return objects(select(selectQuery), true);
+		return objects(select(selectQuery));
+	}
+	
+	public function queryAllUserPairsWithKey(key:String):List<Pair>
+	{
+		return objects("SELECT * FROM " + this.table_name + " WHERE userId IN (SELECT userId FROM " + this.table_name + " WHERE `key` LIKE '" + key + "%')");
 	}
 }

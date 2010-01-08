@@ -5,6 +5,7 @@ import neko.vm.Thread;
 import org.abn.bot.operation.BotOperation;
 import org.abn.neko.xmpp.XMPPContext;
 import org.abn.userstorage.Main;
+import org.abn.userstorage.model.PairManager;
 
 import neko.Web;
 import xmpp.Message;
@@ -20,6 +21,9 @@ class Start extends BotOperation
 			return "already started";
 			
 		this.botContext.openXMPPConnection(onConnected, onConnectFailed, onDisconnected);
+		
+		var pairManager:PairManager = new PairManager(this.getDbConn());
+		pairManager.updateTable();
 		
 		Web.cacheModule(Main.handleRequests);
 		this.botContext.set("started", true);

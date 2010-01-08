@@ -15,6 +15,9 @@
 		<get>
 			<path>org.abn.userstorage.operation.Get</path>
 		</get>
+		<getUserPairs>
+			<path>org.abn.userstorage.operation.GetUserPairs</path>
+		</getUserPairs>
 		<statusReport>
 			<path>org.abn.userstorage.operation.StatusReport</path>
 		</statusReport>
