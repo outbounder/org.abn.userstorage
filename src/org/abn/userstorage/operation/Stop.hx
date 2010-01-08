@@ -14,6 +14,6 @@ class Stop extends BotOperation
 		this.botContext.closeDatabase();
 		
 		Web.cacheModule(null);
-		return "done";
+		return "<response>stopped</response>";
 	}
 }

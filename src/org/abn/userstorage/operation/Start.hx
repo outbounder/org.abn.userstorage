@@ -25,7 +25,7 @@ class Start extends BotOperation
 		this.botContext.set("started", true);
 		
 		this.httpThread = Thread.current();
-		return Thread.readMessage(true);
+		return "<response>"+Thread.readMessage(true)+"</response>";
 	}
 	
 	private function onConnectFailed(reason:Dynamic):Void
@@ -37,7 +37,7 @@ class Start extends BotOperation
 	private function onConnected():Void
 	{
 		trace("userstorage connected");
-		this.httpThread.sendMessage("done");
+		this.httpThread.sendMessage("started");
 	}
 	
 	private function onDisconnected():Void
