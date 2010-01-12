@@ -6,6 +6,7 @@ import org.abn.bot.operation.BotOperation;
 import org.abn.neko.xmpp.XMPPContext;
 import org.abn.userstorage.Main;
 import org.abn.userstorage.model.PairManager;
+import org.abn.userstorage.model.UserManager;
 
 import neko.Web;
 import xmpp.Message;
@@ -24,6 +25,9 @@ class Start extends BotOperation
 		
 		var pairManager:PairManager = new PairManager(this.getDbConn());
 		pairManager.updateTable();
+		
+		var userManager:UserManager = new UserManager(this.getDbConn());
+		userManager.updateTable();
 		
 		Web.cacheModule(Main.handleRequests);
 		this.botContext.set("started", true);
