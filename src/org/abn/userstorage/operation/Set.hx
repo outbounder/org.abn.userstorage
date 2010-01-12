@@ -13,11 +13,16 @@ class Set extends BotOperation
 		var pairManager:PairManager = new PairManager(this.getDbConn());
 		if (params.get("value") == "" || params.get("value") == null)
 		{
+			if ((params.get("key") == null || params.get("key") == "") || (params.get("userId") == null || params.get("userId") == ""))
+				return "<response>NEEEDKEYUSERID</response>";
+				
 			var pairs:List<Pair> = pairManager.queryStartWith(params.get("key"),params.get("userId"), params.get("sourceId"));
 			if (pairs.length > 1)
-				return "can not set value to namespace "+params.get("key");
+				return "can not set value to namespace " + params.get("key");
 			var pair:Pair = pairs.first();
-			pairManager.delete(pair);
+			if (pairs.length == 0 || pair == null)
+				return "<response>NOTHINGDONE</response>";
+			pairManager.delete( { id:pair.id } );
 			return "<response>DELETED</response>";
 		}
 		else
