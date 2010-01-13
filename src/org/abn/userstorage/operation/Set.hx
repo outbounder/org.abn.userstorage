@@ -11,6 +11,22 @@ class Set extends BotOperation
 	public override function execute(params:Hash<String>):String
 	{
 		var pairManager:PairManager = new PairManager(this.getDbConn());
+		
+		// fast save all the given key-values
+		if (params.get("value") == null && params.get("key") == null && params.get("userId") != null && params.get("userId") != "")
+		{
+			var userId:String = params.get("userId");
+			for (key in params.keys())
+			{
+				var pair:Pair = new Pair();
+				pair.userId = userId;
+				pair.value = params.get(key);
+				pair.key = key;
+				pairManager.insert(pair);
+			}
+			return this.formatResponse("BATCHINSERTED", params.get("format"));
+		}
+		else
 		if (params.get("value") == "" || params.get("value") == null)
 		{
 			if ((params.get("key") == null || params.get("key") == "") || (params.get("userId") == null || params.get("userId") == ""))
