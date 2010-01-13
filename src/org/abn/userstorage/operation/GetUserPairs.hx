@@ -10,6 +10,10 @@ class GetUserPairs extends BotOperation
 	{
 		var pairManager:PairManager = new PairManager(this.getDbConn());
 		var pairs:List < Pair > = pairManager.queryAllUserPairsWithKey(params.get("key"));
+		
+		if (params.get("format") == "json")
+			return this.formatResponse(pairs, "json");
+		
 		var pairsAsXML:Array<String> = new Array();
 		var pair:Pair;
 		for (pair in pairs)

@@ -14,22 +14,25 @@ class Set extends BotOperation
 		if (params.get("value") == "" || params.get("value") == null)
 		{
 			if ((params.get("key") == null || params.get("key") == "") || (params.get("userId") == null || params.get("userId") == ""))
-				return "<response>NEEEDKEYUSERID</response>";
+				return this.formatResponse("NEEEDKEYUSERID", params.get('format'));
 				
 			var pairs:List<Pair> = pairManager.queryStartWith(params.get("key"),params.get("userId"), params.get("sourceId"));
 			if (pairs.length > 1)
 				return "can not set value to namespace " + params.get("key");
+				
 			var pair:Pair = pairs.first();
 			if (pairs.length == 0 || pair == null)
-				return "<response>NOTHINGDONE</response>";
+				return this.formatResponse("NOTHINGDONE", params.get('format'));
+				
 			pairManager.delete( { id:pair.id } );
-			return "<response>DELETED</response>";
+			return this.formatResponse("DELETED",params.get('format'));
 		}
 		else
 		{
 			var pairs:List<Pair> = pairManager.queryStartWith(params.get("key"),params.get("userId"), params.get("sourceId"));
 			if (pairs.length > 1)
-				return "can not set value to namespace "+params.get("key");
+				return this.formatResponse("can not set value to namespace " + params.get("key"), params.get('format'));
+				
 			var pair:Pair = pairs.first();
 			if (pair == null)
 			{
@@ -39,14 +42,16 @@ class Set extends BotOperation
 				pair.userId = params.get("userId");
 				pair.value = params.get("value");
 				pairManager.insert(pair);
-				return "<response>INSERTED</response>";
+				
+				return this.formatResponse("INSERTED",params.get('format'));
 			}
 			else 
 			{
 				pair.value = params.get("value");
 				pair.userId = params.get("userId");
 				pairManager.update(pair);
-				return "<response>UPDATED</response>";
+				
+				return this.formatResponse("UPDATED", params.get('format'));
 			}
 		}
 	}

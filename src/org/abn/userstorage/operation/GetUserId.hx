@@ -16,9 +16,9 @@ class GetUserId extends BotOperation
 		if (!params.exists("password"))
 		{
 			if(user != null)
-				return "<response>" + user.userUID + "</response>";
+				return this.formatResponse(user.userUID, params.get("format"));
 			else
-				return "<response />";
+				return this.formatResponse("", params.get("format"));
 		}
 		else
 		{
@@ -33,14 +33,14 @@ class GetUserId extends BotOperation
 				user.password = Md5.encode(password);
 				userManager.insert(user);
 				
-				return "<response>" + user.userUID + "</response>";
+				return this.formatResponse(user.userUID, params.get("format"));
 			}
 			else
 			{
 				if (Md5.encode(params.get("password")) == user.password)
-					return "<response>" + user.userUID + "</response>";
+					return this.formatResponse(user.userUID, params.get("format"));
 				else
-					return "<response />";
+					return this.formatResponse("", params.get("format"));
 			}
 		}
 	}

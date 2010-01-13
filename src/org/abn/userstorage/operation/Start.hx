@@ -21,6 +21,8 @@ class Start extends BotOperation
 		if (this.botContext.has("started"))
 			return "already started";
 			
+		this.httpThread = Thread.current();
+			
 		this.botContext.openXMPPConnection(onConnected, onConnectFailed, onDisconnected);
 		
 		var pairManager:PairManager = new PairManager(this.getDbConn());
@@ -32,7 +34,6 @@ class Start extends BotOperation
 		Web.cacheModule(Main.handleRequests);
 		this.botContext.set("started", true);
 		
-		this.httpThread = Thread.current();
 		return "<response>"+Thread.readMessage(true)+"</response>";
 	}
 	
