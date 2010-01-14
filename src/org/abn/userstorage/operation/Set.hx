@@ -18,11 +18,29 @@ class Set extends BotOperation
 			var userId:String = params.get("userId");
 			for (key in params.keys())
 			{
-				var pair:Pair = new Pair();
-				pair.userId = userId;
-				pair.value = params.get(key);
-				pair.key = key;
-				pairManager.insert(pair);
+				if (key == "userId" || key == "sourceId")
+					continue;
+					
+				var pair:Pair;
+				var pairs:List < Pair > = pairManager.queryStartWith(key, userId, params.get("sourceId"));
+				if (pairs.length == 1)
+				{
+					pair = pairs.first();
+					pair.userId = userId;
+					pair.value = params.get(key);
+					pair.key = key;
+					pairManager.update(pair);
+				}
+				else
+				if (pairs.length == 0)
+				{
+					pair = new Pair();
+					pair.userId = userId;
+					pair.value = params.get(key);
+					pair.key = key;
+					pair.sourceId = params.get("sourceId");
+					pairManager.insert(pair);
+				}
 			}
 			return this.formatResponse("BATCHINSERTED", params.get("format"));
 		}

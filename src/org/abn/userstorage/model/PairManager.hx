@@ -11,7 +11,7 @@ class PairManager extends ManagerEx<Pair>
         super(cnx, Pair);
     }
 	
-	public function queryStartWith(key:String,userID:String,sourceId:String):List<Pair>
+	public function queryStartWith(key:String,?userID:String = null,?sourceId:String = null):List<Pair>
 	{
 		var whereParts:Array<String> = new Array();
 		
