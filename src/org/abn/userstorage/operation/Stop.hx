@@ -1,5 +1,6 @@
 ﻿package org.abn.userstorage.operation;
-import neko.Web;
+
+import org.abn.uberTora.UberToraContext;
 import org.abn.bot.operation.BotOperation;
 
 class Stop extends BotOperation
@@ -10,8 +11,8 @@ class Stop extends BotOperation
 			return "<response>not started</response>";
 		
 		this.botContext.set("started", null);
-		this.botContext.closeXMPPConnection();		
-		Web.cacheModule(null);
+		this.botContext.closeXMPPConnection();
+		UberToraContext.redirectRequests(null);
 		
 		return "<response>stopped</response>";
 	}

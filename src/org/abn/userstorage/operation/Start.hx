@@ -8,7 +8,7 @@ import org.abn.userstorage.Main;
 import org.abn.userstorage.model.PairManager;
 import org.abn.userstorage.model.UserManager;
 
-import neko.Web;
+import org.abn.uberTora.UberToraContext;
 import xmpp.Message;
 import haxe.xml.Fast;
 
@@ -31,7 +31,7 @@ class Start extends BotOperation
 		var userManager:UserManager = new UserManager(this.getDbConn());
 		userManager.updateTable();
 		
-		Web.cacheModule(Main.handleRequests);
+		UberToraContext.redirectRequests(Main.handleRequests);
 		this.botContext.set("started", true);
 		
 		return "<response>"+Thread.readMessage(true)+"</response>";

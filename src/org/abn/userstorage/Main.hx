@@ -8,6 +8,8 @@ import neko.Web;
 import org.abn.Context;
 import org.abn.ContextParser;
 import org.abn.neko.AppContext;
+import org.abn.uberTora.ClientRequestContext;
+import org.abn.uberTora.UberToraContext;
 
 class Main 
 {
@@ -21,18 +23,20 @@ class Main
 		var context:Context = parser.getContext(fast);
 		
 		service = new UserStorage(new AppContext(context.getProperties()));
-		handleRequests();
+		Lib.print(service.executeOperation(Web.getURI().substr(1), Web.getParams()));
 	}
 	
-	public static function handleRequests():Void
+	public static function handleRequests(request:Dynamic):Void
 	{
+		var requestContext:ClientRequestContext = UberToraContext.getAsClientRequestContext(request);
+		trace("incoming request");
 		try
 		{
-			Lib.print(service.executeOperation(Web.getURI().substr(1),Web.getParams()));
+			requestContext.sendResponse(service.executeOperation(requestContext.getURI().substr(1),requestContext.getParams()));
 		}
 		catch (e:Dynamic)
 		{
-			Lib.println(e);
+			requestContext.sendResponse(e);
 			trace(Stack.toString(Stack.exceptionStack()));
 		}
 	}
